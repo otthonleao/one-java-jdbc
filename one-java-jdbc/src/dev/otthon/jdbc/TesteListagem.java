@@ -25,6 +25,7 @@ public class TesteListagem {
 			
 			String descricao = resultStatement.getString("DESCRICAO");
 			System.out.println(descricao);
+			System.out.println("\n");
 		}
 	
 		
