@@ -11,22 +11,26 @@ public class TesteInsertAutoCommit {
 	public static void main(String[] args) throws SQLException {
 			
 		ConnectionFactory factory = new ConnectionFactory();
-		Connection connection = factory.recuperarConexao();
 		
-		connection.setAutoCommit(false);
+		//Usando o Auto-closeable do try-with-resources
+		try (Connection connection = factory.recuperarConexao()) {
 		
-		try {
-					PreparedStatement stm = connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-					adicionarVariavel("Celular", "iPhone 14", stm);
-					adicionarVariavel("Smartphone", "Samsumg Galaxy 22", stm);
-					
-					connection.commit();
-					stm.close();
-					connection.close();
-		} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("ROLLBACK EXECUTANDO");
-					connection.rollback();
+			connection.setAutoCommit(false);
+			//Usando o Auto-closeable do try-with-resources
+			try (PreparedStatement stm = connection
+					.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)",
+							Statement.RETURN_GENERATED_KEYS);
+				) {
+				
+				adicionarVariavel("Celular", "iPhone 14", stm);
+				adicionarVariavel("Smartphone", "Samsumg Galaxy 22", stm);
+						
+				connection.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("ROLLBACK EXECUTANDO");
+				connection.rollback();
+			}
 		}
 	}
 
@@ -38,13 +42,14 @@ public class TesteInsertAutoCommit {
 //		if(nome.equals("Celular")) {
 //				throw new RuntimeException("Não foi possível adicionar o produto");
 //		}
-
-
 		stm.execute();
-		ResultSet rst = stm.getGeneratedKeys();
-		while(rst.next()) {
-			Integer id = rst.getInt(1); // Feito com o "Int columnIndex"
-			System.out.println("O ID do produto inserido é: " + id);
+		//Usando o Auto-closeable do try-with-resources
+		try (ResultSet rst = stm.getGeneratedKeys()){
+			while(rst.next()) {
+				Integer id = rst.getInt(1); // Feito com o "Int columnIndex"
+				System.out.println("O ID do produto inserido é: " + id);
+			}
+		
 		}
 	}
 }
