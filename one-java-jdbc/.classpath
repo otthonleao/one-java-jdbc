@@ -3,5 +3,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Eclipse Temurin 8 [1.8.0_372]"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="/Users/otthon/Downloads/mysql-connector-java-8.0.17.jar"/>
+	<classpathentry kind="lib" path="/Users/otthon/Downloads/c3p0-JARs/c3p0-0.9.5.4.jar"/>
+	<classpathentry kind="lib" path="/Users/otthon/Downloads/c3p0-JARs/mchange-commons-java-0.2.16.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
