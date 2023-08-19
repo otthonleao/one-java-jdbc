@@ -20,6 +20,8 @@ public class CategoriaDAO {
 	public List<CategoriaModel> listar() throws SQLException {
 		List<CategoriaModel> categorias = new ArrayList<>();
 		
+		System.out.println("==== EXECUTANDO A QUERY DE LISTAR CATEGORIA ====");
+		
 		String sql = "SELECT ID, NOME FROM CATEGORIA";
 		
 		try(PreparedStatement pstm = connection.prepareStatement(sql)) {

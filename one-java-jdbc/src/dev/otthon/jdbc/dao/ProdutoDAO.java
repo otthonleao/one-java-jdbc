@@ -6,8 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
+import dev.otthon.jdbc.modelo.CategoriaModel;
 import dev.otthon.jdbc.modelo.ProdutoModel;
 
 public class ProdutoDAO {
@@ -51,5 +52,28 @@ public class ProdutoDAO {
 			}
 		}
 		return produtoModels;
+	}
+
+	public List<ProdutoModel> buscar(CategoriaModel ct) throws SQLException {
+		List<ProdutoModel> produtos = new ArrayList<ProdutoModel>();
+		
+		System.out.println("#### EXECUTANDO A QUERY DE BUSCAR PRODUTO POR CATEGORIA ####");
+		
+		String sql = "SELECT id, nome, descricao FROM produto WHERE categoria_id = ?";
+		
+		try(PreparedStatement pstm = connection.prepareStatement(sql)) {
+			pstm.setInt(1,  ct.getId());
+			pstm.execute();
+			
+			try(ResultSet rst = pstm.getResultSet()) {
+				while(rst.next()) {
+					ProdutoModel produto = new ProdutoModel(rst.getInt(1),
+							rst.getString(2), rst.getString(3));
+					produtos.add(produto);
+				}
+				
+			}
+		}
+		return produtos;
 	}
 }
